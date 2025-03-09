@@ -36,9 +36,12 @@
                     <t t-if="lot_producing"/>
                     <div class="o_label_qr" style="width: 50mm; height: 30mm; background: white; border: 1px solid black; margin-bottom:30px; margin-top:5px">
                         <div>N° Lote:
-                        <t t-if="lot_producing">
-                            <t t-esc="lot_producing.name"/>
-                        </t>
+                            <t t-if="lot_producing">
+                                <t t-esc="lot_producing.name"/>
+                            </t>
+                            <t t-else="">
+                                <span t-out="barcode"/>
+                            </t>
                         </div>
                         <div>Largo: <t t-esc="product.product_length"/></div>
                         <div>Ancho: <t t-esc="product.product_width"/></div>
