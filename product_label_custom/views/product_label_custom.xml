@@ -34,10 +34,10 @@
                 <div class="text-center o_label_right_column">
                     <div class="o_label_qr" style="width: 50mm; height: 30mm; background: white; border: 1px solid black; margin-bottom:30px; margin-top:5px">
                         <div>N° Lote: <span t-out="barcode"/> </div>
-                        <div>Largo: <t t-esc="product.product_length"/></div>
-                        <div>Ancho: <t t-esc="product.product_width"/></div>
-                        <div>Alto: <t t-esc="product.product_height"/></div>
-                        <div>Volumen: <t t-esc="product.product_length * product.product_width * product.product_height"/></div>
+                        <div>Largo: <t t-esc="product.product_length"/> <t t-esc="product.dimensional_uom_id.name"/></div>
+                        <div>Ancho: <t t-esc="product.product_width"/> <t t-esc="product.dimensional_uom_id.name"/></div>
+                        <div>Alto: <t t-esc="product.product_height"/> <t t-esc="product.dimensional_uom_id.name"/></div>
+                        <div>Volumen: <t t-esc="product.product_length * product.product_width * product.product_height"/> <t t-esc="product.dimensional_uom_id.name"/></div>
                     </div>
                 </div>
                 <div class="text-end" style="line-height:normal;">
