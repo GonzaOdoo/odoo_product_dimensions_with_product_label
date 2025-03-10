@@ -25,24 +25,15 @@
                         <t t-if="barcode">
                             <div t-out="barcode" style="padding:0" t-options="{'widget': 'barcode', 'quiet': 0, 'symbology': 'auto', 'img_style': barcode_size}"/>
                             <div class="o_label_name" style="height:1.7em;background-color: transparent;">
-                                <span t-out="barcode"/>
+                                <span class="text-nowrap" t-field="product.default_code"/>
                             </div>
                         </t>
                     </div>
                     </div>
                 </div>
                 <div class="text-center o_label_right_column">
-                    <t t-set="lot_producing" t-value="production_data.get(product.id)"/>
-                    <t t-if="lot_producing"/>
                     <div class="o_label_qr" style="width: 50mm; height: 30mm; background: white; border: 1px solid black; margin-bottom:30px; margin-top:5px">
-                        <div>N° Lote:
-                            <t t-if="lot_producing">
-                                <t t-esc="lot_producing.name"/>
-                            </t>
-                            <t t-else="">
-                                <span t-out="barcode"/>
-                            </t>
-                        </div>
+                        <div>N° Lote: <span t-out="barcode"/> </div>
                         <div>Largo: <t t-esc="product.product_length"/></div>
                         <div>Ancho: <t t-esc="product.product_width"/></div>
                         <div>Alto: <t t-esc="product.product_height"/></div>
