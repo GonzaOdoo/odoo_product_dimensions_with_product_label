@@ -1,13 +1,12 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models
+import logging
 
-
+_logger = logging.getLogger(__name__)
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    # Define all the related fields in product.template with 'readonly=False'
-    # to be able to modify the values from product.template.
     dimensional_uom_id = fields.Many2one(
         "uom.uom",
         "Dimensional UoM",
@@ -15,19 +14,25 @@ class ProductTemplate(models.Model):
         help="UoM for length, height, width",
         readonly=False,
     )
-    product_length = fields.Float(
-        related="product_variant_ids.product_length", readonly=False
+    volume = fields.Float(
+        'Volume',
+        digits='Volume',
+        compute='_compute_volume',
+        inverse='_inverse_volume',
+        store=True
     )
+
     product_height = fields.Float(
-        related="product_variant_ids.product_height", readonly=False
+        inverse="_inverse_dimensions",
+        store=True
+    )
+    product_length = fields.Float(
+        inverse="_inverse_dimensions",
+        store=True
     )
     product_width = fields.Float(
-        related="product_variant_ids.product_width", readonly=False
-    )
-    volume = fields.Float(
-        compute="_compute_volume",
-        readonly=False,
-        store=True,
+        inverse="_inverse_dimensions",
+        store=True
     )
 
     @api.model
@@ -76,3 +81,20 @@ class ProductTemplate(models.Model):
         if self.product_width:
             res.update({"product_width": self.product_width})
         return res
+
+    def _inverse_dimensions(self):
+        for template in self:
+            _logger.info("Inverse")
+            _logger.info(template.product_variant_ids)
+            template.product_variant_ids.write({
+                'product_height': template.product_height,
+                'product_length': template.product_length,
+                'product_width': template.product_width,
+            })
+
+    def _inverse_volume(self):
+        for template in self:
+            _logger.info("Inverse variant, volume")
+            template.product_variant_ids.write({
+                'volume': template.volume
+            })
